@@ -1,6 +1,7 @@
 import './App.css';
 import Navbar from './components/layout/Navbar';
 import Users from './components/users/Users';
+import Search from './components/users/Search';
 import React, { Component } from 'react';
 import axios from 'axios';
 
@@ -28,6 +29,7 @@ class App extends Component{
       <div className='App'>
         <Navbar title={'Roober\'s Github Finder'}/>
         <div className="container">
+          <Search />
           <Users loading={this.state.loading} users={this.state.users} />
         </div>
       </div>
