@@ -2,14 +2,17 @@ import './App.css';
 import Navbar from './components/layout/Navbar';
 import Users from './components/users/Users';
 import Search from './components/users/Search';
-import React, { Component } from 'react';
+import Alert from './components/layout/Alert';
+import About from './components/pages/About';
+import React, { Component, Fragment } from 'react';
 import axios from 'axios';
-import PropTypes from 'prop-types';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 class App extends Component{
   state = {
     users: [],
-    loading: false
+    loading: false,
+    alert: null
   }
   
   /**
@@ -49,19 +52,42 @@ class App extends Component{
     this.setState({ users:[], loading:false });
   };
 
+  //set alert
+  setAlert = (msg, type) => {
+    this.setState({ alert: { msg, type }}); //same as { msg: msg, type: type }
+    //This commented out code was by Brad Traversy in his Udemy course react front to back, I've opted to use try and use and (x) button
+    setTimeout(() => {
+      this.setState({ alert:null })
+    }, 5000);
+  }
+
   render() {
 
     const { users, loading } = this.state;
 
     return (
-      <div className='App'>
-        <Navbar title={'Roober\'s Github Finder'}/>
-        <div className="container">
-          <Search searchUsers={ this.searchUsers } clearUsers={ this.clearUsers } showClear={
-          users.length > 0 ? true : false}/>
-          <Users loading={loading} users={users} />
+      <Router>
+        <div className='App'>
+          <Navbar title={'Roober\'s Github Finder'}/>
+          <div className="container">
+            <Alert alert={this.state.alert}/>
+            <Switch>
+              <Route exact path='/' render={props => (
+                <Fragment>
+                  <Search 
+                    searchUsers={ this.searchUsers } 
+                    clearUsers={ this.clearUsers } 
+                    showClear={ users.length > 0 ? true : false }
+                    setAlert={ this.setAlert}
+                  />
+                  <Users loading={loading} users={users} />
+                </Fragment>
+              )} />
+              <Route exact path='/about' component={About}/>
+            </Switch>
+          </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }
