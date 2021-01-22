@@ -12,11 +12,6 @@ class App extends Component{
     loading: false
   }
   
-  //Make proptypes required for certain props
-  static propTypes = {
-    searchUsers: PropTypes.func.isRequired
-  }
-
   /**
    * 
    * @param {This function allows already selected users to show up when opening the page} text 
@@ -49,13 +44,22 @@ class App extends Component{
     this.setState({ users: res.data.items, loading:false });
   }
 
+  //clear users from the state
+  clearUsers = () => {
+    this.setState({ users:[], loading:false });
+  };
+
   render() {
+
+    const { users, loading } = this.state;
+
     return (
       <div className='App'>
         <Navbar title={'Roober\'s Github Finder'}/>
         <div className="container">
-          <Search searchUsers={ this.searchUsers }/>
-          <Users loading={this.state.loading} users={this.state.users} />
+          <Search searchUsers={ this.searchUsers } clearUsers={ this.clearUsers } showClear={
+          users.length > 0 ? true : false}/>
+          <Users loading={loading} users={users} />
         </div>
       </div>
     );
