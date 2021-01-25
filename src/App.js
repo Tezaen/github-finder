@@ -8,6 +8,7 @@ import User from './components/users/User';
 import React, { Fragment, useState } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import GithubState from './context/github/GithubState';
 
 const App = () => {
   //const [name of piece in the state, function to manipulate that value of the piece (usually setNameOfPiece)]
@@ -89,6 +90,7 @@ const App = () => {
   }
 
   return (
+    <GithubState>
     <Router>
       <div className='App'>
         <Navbar title={'Roober\'s Github Finder'} />
@@ -114,6 +116,7 @@ const App = () => {
         </div>
       </div>
     </Router>
+    </GithubState>
   );
 }
 
