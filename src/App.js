@@ -35,19 +35,7 @@ const App = () => {
   //   this.setState({ users: res.data, loading:false });
   // }
 
-  //search github users
-  const searchUsers = async (text) => {
-    // console.log(text);
-    setLoading(true);
-
-    const res = await axios
-      .get(`https://api.github.com/search/users?q=${text}&client_id=
-      ${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=
-      ${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
-
-    setUsers(res.data.items);
-    setLoading(false);
-  }
+  
 
   //get a single github user Username is the same as login in github api data
   const getUser = async (username) => {
@@ -100,7 +88,6 @@ const App = () => {
             <Route exact path='/' render={props => (
               <Fragment>
                 <Search
-                  searchUsers={searchUsers}
                   clearUsers={clearUsers}
                   showClear={users.length > 0 ? true : false}
                   setAlert={showAlert}
